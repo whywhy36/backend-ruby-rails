@@ -1,7 +1,6 @@
 hooks:
   build:
-    dir: .sandbox
-    cmd: sandbox.sh
+    cmd: scripts/setup-workspace.sh
 
 daemons:
   server:

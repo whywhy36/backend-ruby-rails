@@ -1,9 +1,5 @@
 #!/bin/bash
 
-# ============================================
-# Configure sandbox for quick workspace setup.
-# ============================================
-
 echo '== Update system =='
 sudo apt-get update
 
