@@ -87,18 +87,18 @@ class ApiController < ApplicationController
     end
 
     def service_endpoint(serviceName)
-      suffix = ENV.fetch('SANDBOX_ENDPOINT_DNS_SUFFIX', nil)
+      suffix = "#{ENV.fetch('SANDBOX_ENDPOINT_DNS_SUFFIX', nil)}/api"
       case serviceName
       when 'backend-go-gin'
-        "https://gin#{suffix}/api"
+        "https://gin#{suffix}"
       when 'backend-typescript-express'
-        "https://express#{suffix}/api"
+        "https://express#{suffix}"
       when 'backend-ruby-rails'
-        "https://rails#{suffix}/api"
+        "https://rails#{suffix}"
       when 'backend-kotlin-spring'
-        "https://spring#{suffix}/api"
+        "https://spring#{suffix}"
       when 'backend-python-django'
-        "https://django#{suffix}/api"
+        "https://django#{suffix}"
       else
         'unknown'
       end
