@@ -7,28 +7,33 @@ class ApiController < ApplicationController
   # Accepts POST requests with a JSON body specifying
   # the nested call, and returns the response json.
   def nested_call_handler
+    errors = []
+
     @message[:actions].each_with_index do |action, i|
       case action[:action]
       when 'Echo'
         @message[:actions][i][:status] = 'Passed'
       when 'Read'
-        value = read_entity(action[:payload][:serviceName], action[:payload][:key])
-        if value.blank?
+        res = read_entity(action[:payload][:serviceName], action[:payload][:key])
+        if res[:errors].present?
+          errors << res[:errors]
           @message[:actions][i][:status] = 'Failed'
         else
           @message[:actions][i][:status] = 'Passed'
-          @message[:actions][i][:payload][:value] = value
+          @message[:actions][i][:payload][:value] = res['value']
         end
       when 'Write'
-        value = write_entity(action[:payload][:serviceName], action[:payload][:key], action[:payload][:value])
-        @message[:actions][i][:status] = if value.blank?
-                                           'Failed'
-                                         else
-                                           'Passed'
-                                         end
+        res = write_entity(action[:payload][:serviceName], action[:payload][:key], action[:payload][:value])
+        if res[:errors].present?
+          errors << res[:errors]
+          @message[:actions][i][:status] = 'Failed'
+        else
+          @message[:actions][i][:status] = 'Passed'
+        end
       when 'Call'
         resp = service_call(action[:payload])
         if resp.blank?
+          errors << "failed to call service #{action[:payload][:serviceName]}"
           @message[:actions][i][:status] = 'Failed'
         else
           @message[:actions][i][:status] = 'Passed'
@@ -43,11 +48,9 @@ class ApiController < ApplicationController
     @message[:meta][:returnTime] = Time.current
 
     Rails.logger.debug { "  Response: #{@message.as_json}" }
+    Rails.logger.debug { "  Errors: #{{ errors: errors }.as_json}" } if errors.length.positive?
 
     render json: @message
-
-    # TODO: persist response
-    # write payload to kafka queue for react topic
   end
 
   private
@@ -104,17 +107,11 @@ class ApiController < ApplicationController
       end
     end
 
-    def read_entity(_store, _key)
-      # TODO:
-      # If success, return value
-      # If error, log and return nil
-      'TODO'
+    def read_entity(store, _key)
+      { value: '', errors: "#{store} client not implemented yet" }
     end
 
-    def write_entity(_store, _key, _value)
-      # TODO:
-      # If success, return value back
-      # If error, log and return nil
-      'TODO'
+    def write_entity(store, _key, value)
+      { value: value, errors: "#{store} client not implemented yet" }
     end
 end
