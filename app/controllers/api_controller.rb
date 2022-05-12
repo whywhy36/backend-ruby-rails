@@ -4,8 +4,6 @@ class ApiController < ApplicationController
   before_action :set_message
 
   # nested_call_handler handles a "nested call" API.
-  # Accepts POST requests with a JSON body specifying
-  # the nested call, and returns the response json.
   def nested_call_handler
     errors = []
 
@@ -20,7 +18,7 @@ class ApiController < ApplicationController
           @message[:actions][i][:status] = 'Failed'
         else
           @message[:actions][i][:status] = 'Passed'
-          @message[:actions][i][:payload][:value] = res['value']
+          @message[:actions][i][:payload][:value] = res[:value]
         end
       when 'Write'
         res = write_entity(action[:payload][:serviceName], action[:payload][:key], action[:payload][:value])
@@ -107,11 +105,45 @@ class ApiController < ApplicationController
       end
     end
 
-    def read_entity(store, _key)
-      { value: '', errors: "#{store} client not implemented yet" }
+    def read_entity(store, key)
+      case store
+      when 'mysql'
+        read_mysql(key)
+      when 'mongodb'
+        read_mongodb(key)
+      else
+        { value: nil, errors: "#{store} not supported" }
+      end
     end
 
-    def write_entity(store, _key, value)
-      { value: value, errors: "#{store} client not implemented yet" }
+    def write_entity(store, key, value)
+      case store
+      when 'mysql'
+        write_mysql(key, value)
+      when 'mongodb'
+        write_mongodb(key, value)
+      else
+        { value: nil, errors: "#{store} not supported" }
+      end
+    end
+
+    def read_mysql(key)
+      value = Mysql.find_by(uuid: key).content
+      { value: value, errors: nil }
+    end
+
+    def write_mysql(key, value)
+      Mysql.create({ uuid: key, content: value })
+      { value: value, errors: nil }
+    end
+
+    def read_mongodb(key)
+      value = Mongodb.find_by(uuid: key).content
+      { value: value, errors: nil }
+    end
+
+    def write_mongodb(key, value)
+      Mongodb.create({ uuid: key, content: value })
+      { value: value, errors: nil }
     end
 end
