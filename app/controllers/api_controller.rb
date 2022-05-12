@@ -128,7 +128,12 @@ class ApiController < ApplicationController
     end
 
     def read_mysql(key)
-      value = Mysql.find_by(uuid: key).content
+      value = Mysql.find_by(uuid: key)
+      value = if value.blank?
+                'Not Found'
+              else
+                value.content
+              end
       { value: value, errors: nil }
     end
 
@@ -138,7 +143,12 @@ class ApiController < ApplicationController
     end
 
     def read_mongodb(key)
-      value = Mongodb.find_by(uuid: key).content
+      value = Mongodb.find_by(uuid: key)
+      value = if value.blank?
+                'Not Found'
+              else
+                value.content
+              end
       { value: value, errors: nil }
     end
 
