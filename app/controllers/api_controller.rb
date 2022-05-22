@@ -84,7 +84,11 @@ class ApiController < ApplicationController
       request.body = message.to_json
 
       response = https.request(request)
-      JSON.parse(response.read_body)
+      begin
+        JSON.parse(response.read_body)
+      rescue Exception => e
+        nil
+      end
     end
 
     def service_endpoint(serviceName)
