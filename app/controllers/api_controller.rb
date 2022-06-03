@@ -78,14 +78,14 @@ class ApiController < ApplicationController
 
       url = URI(service_endpoint(payload[:serviceName]))
 
-      https = Net::HTTP.new(url.host, url.port)
-      https.use_ssl = true
+      http = Net::HTTP.new(url.host, url.port)
+      http.use_ssl = false
 
       request = Net::HTTP::Post.new(url)
       request['Content-Type'] = 'application/json'
       request.body = message.to_json
 
-      response = https.request(request)
+      response = http.request(request)
       begin
         JSON.parse(response.read_body)
       rescue Exception => e
