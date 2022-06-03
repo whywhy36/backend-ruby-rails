@@ -99,19 +99,19 @@ class ApiController < ApplicationController
       case serviceName
       when 'backend-go-gin'
         host = ENV.fetch('GIN_SERVICE_HOST', nil)
-        port = ENV.fetch('GIN_SERVICE_PORT_API', nil)
+        port = ENV.fetch('GIN_SERVICE_PORT', nil)
       when 'backend-typescript-express'
         host = ENV.fetch('EXPRESS_SERVICE_HOST', nil)
-        port = ENV.fetch('EXPRESS_SERVICE_PORT_API', nil)
+        port = ENV.fetch('EXPRESS_SERVICE_PORT', nil)
       when 'backend-ruby-rails'
         host = ENV.fetch('RAILS_SERVICE_HOST', nil)
-        port = ENV.fetch('RAILS_SERVICE_PORT_API', nil)
+        port = ENV.fetch('RAILS_SERVICE_PORT', nil)
       when 'backend-kotlin-spring'
         host = ENV.fetch('SPRING_SERVICE_HOST', nil)
-        port = ENV.fetch('SPRING_SERVICE_PORT_API', nil)
+        port = ENV.fetch('SPRING_SERVICE_PORT', nil)
       when 'backend-python-django'
         host = ENV.fetch('DJANGO_SERVICE_HOST', nil)
-        port = ENV.fetch('DJANGO_SERVICE_PORT_API', nil)
+        port = ENV.fetch('DJANGO_SERVICE_PORT', nil)
       end
       "http://#{host}:#{port}/api"
     end
