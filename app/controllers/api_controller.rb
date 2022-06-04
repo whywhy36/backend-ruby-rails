@@ -5,6 +5,8 @@ class ApiController < ApplicationController
 
   # nested_call_handler handles a "nested call" API.
   def nested_call_handler
+    # Rails.logger.debug { 'Test Test Crafting' }
+
     errors = []
 
     @message[:actions].each_with_index do |action, i|
@@ -76,14 +78,14 @@ class ApiController < ApplicationController
 
       url = URI(service_endpoint(payload[:serviceName]))
 
-      https = Net::HTTP.new(url.host, url.port)
-      https.use_ssl = true
+      http = Net::HTTP.new(url.host, url.port)
+      http.use_ssl = false
 
       request = Net::HTTP::Post.new(url)
       request['Content-Type'] = 'application/json'
       request.body = message.to_json
 
-      response = https.request(request)
+      response = http.request(request)
       begin
         JSON.parse(response.read_body)
       rescue Exception => e
@@ -92,21 +94,26 @@ class ApiController < ApplicationController
     end
 
     def service_endpoint(serviceName)
-      suffix = "#{ENV.fetch('SANDBOX_ENDPOINT_DNS_SUFFIX', nil)}/api"
+      host = ''
+      port = ''
       case serviceName
       when 'backend-go-gin'
-        "https://gin#{suffix}"
+        host = ENV.fetch('GIN_SERVICE_HOST', nil)
+        port = ENV.fetch('GIN_SERVICE_PORT', nil)
       when 'backend-typescript-express'
-        "https://express#{suffix}"
+        host = ENV.fetch('EXPRESS_SERVICE_HOST', nil)
+        port = ENV.fetch('EXPRESS_SERVICE_PORT', nil)
       when 'backend-ruby-rails'
-        "https://rails#{suffix}"
+        host = ENV.fetch('RAILS_SERVICE_HOST', nil)
+        port = ENV.fetch('RAILS_SERVICE_PORT', nil)
       when 'backend-kotlin-spring'
-        "https://spring#{suffix}"
+        host = ENV.fetch('SPRING_SERVICE_HOST', nil)
+        port = ENV.fetch('SPRING_SERVICE_PORT', nil)
       when 'backend-python-django'
-        "https://django#{suffix}"
-      else
-        'unknown'
+        host = ENV.fetch('DJANGO_SERVICE_HOST', nil)
+        port = ENV.fetch('DJANGO_SERVICE_PORT', nil)
       end
+      "http://#{host}:#{port}/api"
     end
 
     def read_entity(store, key)
