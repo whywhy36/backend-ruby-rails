@@ -18,6 +18,9 @@ bundle install
 echo '== Wait for mysql service =='
 cs wait service mysql
 
+echo '== Wait for mongodb service =='
+cs wait service mongodb
+
 echo '== Run all migrations =='
 rails db:migrate
 
