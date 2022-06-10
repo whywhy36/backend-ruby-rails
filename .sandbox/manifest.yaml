@@ -1,8 +1,13 @@
 hooks:
   post-checkout:
-    cmd:
+    cmd: |
+      gem install rails
+      bundle install
   build:
-    cmd: scripts/setup-workspace.sh
+    cmd: |
+      cs wait service mysql
+      cs wait service mongodb
+      rails db:migrate
 
 daemons:
   ruby-rails:
