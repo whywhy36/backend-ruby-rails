@@ -15,4 +15,10 @@ gem install rails
 echo '== Bundle install =='
 bundle install
 
+echo '== Wait for mysql service =='
+cs wait service mysql
+
+echo '== Run all migrations =='
+rails db:migrate
+
 echo '== DONE =='
