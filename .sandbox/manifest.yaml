@@ -1,10 +1,17 @@
 hooks:
+  post-checkout:
+    cmd: |
+      gem install rails
+      bundle install
   build:
-    cmd: scripts/setup-workspace.sh
+    cmd: |
+      cs wait service mysql
+      cs wait service mongodb
+      rails db:migrate
 
 daemons:
   ruby-rails:
     run:
       cmd: |
         rm -f tmp/pids/server.pid
-        rails s -b 0.0.0.0 -p 8080
+        rails s -b 0.0.0.0 -p $RAILS_SERVICE_PORT

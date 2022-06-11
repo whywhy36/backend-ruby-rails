@@ -5,8 +5,10 @@ class ApiController < ApplicationController
 
   # nested_call_handler handles a "nested call" API.
   def nested_call_handler
-    # Rails.logger.debug { 'Test Test Crafting' }
+    # Rails.logger.error { 'Test Test Crafting' }
 
+    received_at = Time.current
+    request = @message
     errors = []
 
     @message[:actions].each_with_index do |action, i|
@@ -46,9 +48,9 @@ class ApiController < ApplicationController
     end
 
     @message[:meta][:returnTime] = Time.current
+    response = @message
 
-    Rails.logger.debug { "  Response: #{@message.as_json}" }
-    Rails.logger.debug { "  Errors: #{{ errors: errors }.as_json}" } if errors.length.positive?
+    logger_logcontext(request, response, errors, received_at)
 
     render json: @message
   end
@@ -166,5 +168,17 @@ class ApiController < ApplicationController
     def write_mongodb(key, value)
       Mongodb.create({ uuid: key, content: value })
       { value: value, errors: nil }
+    end
+
+    def logger_write(message)
+      Rails.logger.error { message }
+    end
+
+    def logger_logcontext(request, response, errors, received_at)
+      Rails.logger.error { "Started POST \"/api\" at #{received_at}" }
+      Rails.logger.error { "  Request: #{request.as_json}" }
+      Rails.logger.error { "  Response: #{response.as_json}" }
+      Rails.logger.error { "  Errors: #{{ errors: errors }.as_json}" } if errors.length.positive?
+      Rails.logger.error { "\n" }
     end
 end
