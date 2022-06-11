@@ -5,7 +5,7 @@ class ApiController < ApplicationController
 
   # nested_call_handler handles a "nested call" API.
   def nested_call_handler
-    # logger_write('Test Test Crafting')
+    # Rails.logger.error { 'Test Test Crafting' }
 
     received_at = Time.current
     request = @message
