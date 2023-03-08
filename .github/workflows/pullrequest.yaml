@@ -6,8 +6,6 @@ on:
 
 jobs:
   build:
-    permissions:
-      issues: write
     name: Preview
     runs-on: [ubuntu-latest]
     env:
