@@ -22,7 +22,7 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const { woner, repo } = context.repo;
+            const { owner, repo } = context.repo;
             const { number } = context.issue;
             const comment = `Crafting Sandbox Preview URL: ${{ steps.generateurl.outputs.url }}`
             await github.issues.createComment({owner, repo, issue_number: number, body: comment })
