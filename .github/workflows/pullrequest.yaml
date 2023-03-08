@@ -14,19 +14,6 @@ jobs:
       - uses: actions/checkout@v2
       - name: Setup
         id: generateurl
-        uses: whywhy36/crafting-sandbox-action/@v0.0.6
+        uses: whywhy36/crafting-sandbox-action/@v0.0.7
         with:
           name: hello
-      - name: Create PR comment
-        uses: actions/github-script@v4
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const github = require('@actions/github');
-            const octokit = new github.GitHub(process.env.GITHUB_TOKEN);
-
-            const { owner, repo } = context.repo;
-            const { number } = context.payload.pull_request;
-            const message = 'Crafting Sandbox Preview Sandbox: ${{ steps.generateurl.outputs.url }}';
-
-            octokit.issues.createComment({ owner, repo, issue_number: number, body: message });
