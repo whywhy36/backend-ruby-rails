@@ -7,7 +7,7 @@ on:
 jobs:
   build:
     name: Preview
-    runs-on: [ubuntu]
+    runs-on: [ubuntu-latest]
     steps:
       - name: Setup
         uses: whywhy36/crafting-sandbox-action/@v0.0.1
