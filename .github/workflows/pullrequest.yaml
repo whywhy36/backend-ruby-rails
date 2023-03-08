@@ -8,9 +8,11 @@ jobs:
   build:
     name: Preview
     runs-on: [ubuntu-latest]
+    env:
+      ACTIONS_RUNNER_DEBUG: true
     steps:
       - uses: actions/checkout@v2
       - name: Setup
-        uses: whywhy36/crafting-sandbox-action/@v0.0.3
+        uses: whywhy36/crafting-sandbox-action/@v0.0.4
         with:
           name: hello
