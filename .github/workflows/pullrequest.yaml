@@ -10,6 +10,6 @@ jobs:
     runs-on: [ubuntu-latest]
     steps:
       - name: Setup
-        uses: whywhy36/crafting-sandbox-action/@v0.0.1
+        uses: whywhy36/crafting-sandbox-action/@v0.0.3
         with:
           name: hello
