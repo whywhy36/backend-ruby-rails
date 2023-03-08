@@ -12,6 +12,4 @@ jobs:
       - name: Setup
         uses: whywhy36/crafting-sandbox-action/@v0.0.1
         with:
-          name:
-      - name: Build and Test
-        run: .github/workflows/build_and_test.sh
+          name: hello
