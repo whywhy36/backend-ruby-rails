@@ -1,0 +1,20 @@
+name: PullRequest
+
+on:
+  pull_request:
+    branches: [master]
+    types: ["opened"]
+
+jobs:
+  build:
+    name: Preview
+    runs-on: [ubuntu-latest]
+    env:
+      ACTIONS_RUNNER_DEBUG: true
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup
+        uses: crafting-dev/sandbox-launch-action/@v0.0.1
+        with:
+          name: hello

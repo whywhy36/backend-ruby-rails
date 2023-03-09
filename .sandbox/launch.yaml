@@ -1,0 +1,8 @@
+template: test-action
+workspaces:
+  - name: workspace
+    auto: false
+    checkouts:
+      - name: src
+        version: $BRANCH
+autoLaunch: true
