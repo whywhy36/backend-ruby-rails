@@ -3,6 +3,7 @@ name: PullRequest
 on:
   pull_request:
     branches: [master]
+    types: ["opened"]
 
 jobs:
   build:
@@ -14,7 +15,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Setup
-        id: generateurl
-        uses: whywhy36/crafting-sandbox-action/@v0.0.14
+        uses: crafting-dev/sandbox-launch-action/@v0.0.1
         with:
           name: hello
