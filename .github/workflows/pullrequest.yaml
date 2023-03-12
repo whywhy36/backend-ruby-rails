@@ -19,5 +19,5 @@ jobs:
         with:
           name: hello
           template: test-action
-          autoFollows: workspace
+          autoFollow: workspace
           checkouts: workspace:src
