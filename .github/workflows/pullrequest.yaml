@@ -16,7 +16,6 @@ jobs:
       - name: Setup
         uses: crafting-dev/sandbox-launch-action/@v0.2.1
         with:
-          name: hello
           template: test-action
           autoFollow: workspace
           checkouts: workspace:src
