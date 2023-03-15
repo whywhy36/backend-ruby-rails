@@ -8,7 +8,7 @@ on:
 jobs:
   build:
     name: Test
-    runs-on: [self-hosted, linux, x64, shared]
+    runs-on: [ubuntu-latest]
     env:
       # This is required to post a comment to PR.
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
