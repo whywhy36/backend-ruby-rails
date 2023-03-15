@@ -2,18 +2,19 @@ name: PullRequest
 
 on:
   pull_request:
+    # this action will be triggered each time a PR was made against branch master.
     branches: [master]
 
 jobs:
   build:
-    name: Preview
-    runs-on: [ubuntu-latest]
+    name: Test
+    runs-on: [self-hosted, linux, x64, shared]
     env:
-      ACTIONS_RUNNER_DEBUG: true
+      # This is required to post a comment to PR.
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
-      - uses: actions/checkout@v2
-      - name: Setup
-        uses: crafting-dev/sandbox-launch-action/@v0.3.0
+      - name: generate-preview-url # name of this step, you can rename this as needed
+        uses: crafting-dev/sandbox-launch-action/@latest
         with:
-          template: test-action
+          # required inputs for sandbox-launch-action to specify the target template.
+          template: TEMPLATE_NAME
