@@ -17,4 +17,4 @@ jobs:
         uses: crafting-dev/sandbox-launch-action/@latest
         with:
           # required inputs for sandbox-launch-action to specify the target template.
-          template: TEMPLATE_NAME
+          template: test-action
