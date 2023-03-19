@@ -19,4 +19,3 @@ jobs:
           # required inputs for sandbox-launch-action to specify the target template.
           template: test-action
           envVars: GITHUB_ACTION,GITHUB_REF
-          message: Test New Template $URL
